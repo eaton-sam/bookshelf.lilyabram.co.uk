@@ -1,0 +1,49 @@
+﻿@page "/"
+@page "/{uid}"
+@inject IPrismicService PrismicService
+
+@if (Current != null)
+{
+    <div class="image-container">
+        @foreach (var image in Current.ImageUrls)
+        {
+            <img src="@image" class="" />
+        }
+    </div>
+    <div class="pt-3">
+        <a class="underline" href="#" @onclick:preventDefault @onclick="() => InfoOpen = !InfoOpen">Info</a>
+        <div class="@InfoClass pt-2 max-width-800">
+            @((MarkupString)Current.Description)
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public string Uid { get; set; }
+
+    Shelf Current { get; set; }
+
+    IList<Shelf> Shelves { get; set; }
+
+    public bool InfoOpen { get; set; }
+    public string InfoClass => InfoOpen ? "d-block" : "d-none";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Shelves = await PrismicService.GetShelves();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrEmpty(Uid))
+        {
+            Current = await PrismicService.GetShelf(Uid);
+        }
+        else
+        {
+            Current = (await PrismicService.GetShelves()).FirstOrDefault();
+        }
+    }
+}
