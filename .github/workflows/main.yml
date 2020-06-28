@@ -1,0 +1,47 @@
+name: .NET Core
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Install dependencies
+      run: dotnet restore LilysBlog/LilysBlog.csproj
+      
+    - name: Build
+      run: dotnet build LilysBlog/LilysBlog.csproj --configuration Release --no-restore
+      
+    - name: Publish
+      run: dotnet publish LilysBlog/LilysBlog.csproj -c Release --no-build -o publishOutput
+      
+    - name: Upload to S3
+      uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read --follow-symlinks --delete
+      env:
+        AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+        AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        AWS_S3_BUCKET: 'bookshelf.lilyabram.co.uk'
+        SOURCE_DIR: 'publishOutput/wwwroot'
+    
+#     - name: Invalidate Cloudfront
+#       uses: chetan/invalidate-cloudfront-action@master
+#       env:
+#         DISTRIBUTION: ${{SECRETS.AWS_CLOUDFRONT_DIST}}
+#         AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+#         AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+#         AWS_REGION: 'eu-west-2'
+#         PATHS: '/*'
+        
