@@ -4,21 +4,29 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>LilysBlog</title>
+    <title>An Expanding Bookshelf</title>
     <base href="/" />
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
+    <link rel="icon" href="book.gif" />
 </head>
 
 <body>
-    <app>Loading...</app>
+    <app>
+        <div class="d-flex flex-column justify-content-center w-100" style="height: 100vh">
+            <div style="text-align: center;">
+                <img src="/book.gif" />
+            </div>
+        </div>
+    </app>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
 

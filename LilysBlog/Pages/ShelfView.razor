@@ -1,18 +1,24 @@
-﻿@page "/"
-@page "/{uid}"
+﻿@page "/shelves/{uid}"
 @inject IPrismicService PrismicService
+@inject IJSRuntime JSRuntime
 
 @if (Current != null)
 {
     <div class="image-container">
         @foreach (var image in Current.ImageUrls)
         {
-            <img src="@image" class="" />
+            <img src="@image" class="img-zoomable" />
         }
     </div>
     <div class="pt-3">
-        <a class="underline" href="#" @onclick:preventDefault @onclick="() => InfoOpen = !InfoOpen">Info</a>
-        <div class="@InfoClass pt-2 max-width-800">
+        <div class="d-flex flex-row justify-content-between">
+            <a class="underline" href="#" @onclick:preventDefault @onclick="() => InfoOpen = !InfoOpen">Info</a>
+            @if (!string.IsNullOrEmpty(Current.DownloadUrl))
+            {
+                <a class="underline" target="_blank" href="@Current.DownloadUrl">Download Bookshelf</a>
+            }
+        </div>
+        <div class="@InfoClass pt-2 max-width-1000">
             @((MarkupString)Current.Description)
         </div>
     </div>
@@ -25,15 +31,8 @@
 
     Shelf Current { get; set; }
 
-    IList<Shelf> Shelves { get; set; }
-
     public bool InfoOpen { get; set; }
     public string InfoClass => InfoOpen ? "d-block" : "d-none";
-
-    protected override async Task OnInitializedAsync()
-    {
-        Shelves = await PrismicService.GetShelves();
-    }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -41,9 +40,7 @@
         {
             Current = await PrismicService.GetShelf(Uid);
         }
-        else
-        {
-            Current = (await PrismicService.GetShelves()).FirstOrDefault();
-        }
     }
+
+    //await JSRuntime.InvokeAsync<object>("loadZoom");
 }

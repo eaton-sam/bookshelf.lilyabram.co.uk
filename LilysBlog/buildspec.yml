@@ -1,0 +1,7 @@
+build:
+	commands:
+	- dotnet restore LilysBlog.csproj
+	- dotnet publish LilysBlog.csproj -no-restore -c Release
+artifacts:
+	files:
+	- bin/Release/netstandard2.1/publish/wwwroot

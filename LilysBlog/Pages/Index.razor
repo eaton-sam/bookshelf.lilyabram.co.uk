@@ -1,0 +1,15 @@
+﻿@page "/"
+@inject IPrismicService PrismicService
+
+<div class="max-width-1000">
+    @((MarkupString)Homepage?.Description)
+</div>
+
+@code {
+    Homepage Homepage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Homepage = await PrismicService.GetHomepage();
+    }
+}

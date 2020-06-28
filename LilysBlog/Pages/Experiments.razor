@@ -1,0 +1,40 @@
+﻿@page "/experiments"
+@page "/experiments/{uid}"
+@inject IPrismicService PrismicService
+
+@if (Current != null)
+{
+    @if (!string.IsNullOrEmpty(Current.Description))
+    {
+        <div class="max-width-1000">
+            @((MarkupString)Current.Description)
+        </div>
+    }
+
+    <div class="w-100">
+        @foreach (var image in Current.ImageUrls)
+        {
+            <img src="@image" class="d-block img-fluid my-1 img-zoomable" />
+        }
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public string Uid { get; set; }
+
+    Experiment Current { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrEmpty(Uid))
+        {
+            Current = await PrismicService.GetExperiment(Uid);
+        }
+        else
+        {
+            Current = null;
+        }
+    }
+}

@@ -1,0 +1,79 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Sam\\source\\repos\\LilysBlog\\LilysBlog.Prismic\\LilysBlog.Prismic.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Sam\\source\\repos\\LilysBlog\\LilysBlog.Prismic\\LilysBlog.Prismic.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Sam\\source\\repos\\LilysBlog\\LilysBlog.Prismic\\LilysBlog.Prismic.csproj",
+        "projectName": "LilysBlog.Prismic",
+        "projectPath": "C:\\Users\\Sam\\source\\repos\\LilysBlog\\LilysBlog.Prismic\\LilysBlog.Prismic.csproj",
+        "packagesPath": "C:\\Users\\Sam\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Sam\\source\\repos\\LilysBlog\\LilysBlog.Prismic\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Sam\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Users\\Sam\\source\\repos\\LambdaNetCore3\\nuget-cache": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.devexpress.com/wtMXLALOp9VoYPB1Od3e7R4b9Y7rJ8q93hSdVlwXjedEHTkE2V/api": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "dependencies": {
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[5.0.0-preview.3.20215.2, )"
+            },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[5.0.0-preview.3.20215.2, )"
+            },
+            "prismicio.netstandard": {
+              "target": "Package",
+              "version": "[2.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

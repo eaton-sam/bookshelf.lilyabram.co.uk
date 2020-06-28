@@ -1,0 +1,90 @@
+﻿@inject IPrismicService PrismicService
+@inject NavigationManager NavigationManager
+@implements IDisposable
+
+<div class="navbar navbar-light d-flex flex-column align-items-start">
+    <button class="navbar-toggler pt-2 px-1 border-0" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+        <ul class="nav flex-column">
+            @if (!IsExperiment)
+            {
+                <li class="nav-item">
+                    <NavLink href="/"><strong>An Expanding Bookshelf</strong></NavLink>
+                </li>
+                foreach (var shelf in Shelves)
+                {
+                    <li class="nav-item pl-1">
+                        <NavLink href="@GetShelfUrl(shelf.Uid)">
+                            @shelf.Name
+                        </NavLink>
+                    </li>
+                }
+                <li class="nav-item">
+                    <NavLink href="/experiments"><i>Other Experiments</i></NavLink>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <NavLink href="/experiments"><strong>Experiments</strong></NavLink>
+                </li>
+                foreach (var experiment in Experiments)
+                {
+                    <li class="nav-item pl-1">
+                        <NavLink href="@GetExperimentUrl(experiment.Uid)">
+                            @experiment.Name
+                        </NavLink>
+                    </li>
+                }
+                <li class="nav-item">
+                    <NavLink href="/"><i>An Expanding Bookshelf</i></NavLink>
+
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private IList<Shelf> Shelves { get; set; } = new List<Shelf>();
+    private IList<Experiment> Experiments { get; set; } = new List<Experiment>();
+
+    private string Location { get; set; }
+    private bool IsExperiment => Location.Contains("/experiments");
+
+    private void LocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        Location = e.Location;
+        StateHasChanged();
+    }
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        NavigationManager.LocationChanged += LocationChanged;
+        Location = NavigationManager.Uri;
+
+        Shelves = await PrismicService.GetShelves();
+        Experiments = await PrismicService.GetExperiments();
+    }
+
+    private string GetShelfUrl(string id) => $"/shelves/{id}";
+    private string GetExperimentUrl(string id) => $"/experiments/{id}";
+
+    void IDisposable.Dispose()
+    {
+        NavigationManager.LocationChanged -= LocationChanged;
+    }
+}
